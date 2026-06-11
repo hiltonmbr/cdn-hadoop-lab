@@ -1,108 +1,197 @@
-# Hadoop Cluster on Docker Environment
+# 🐘 Big Data Lab: Apache Hadoop
 
-## Overview
+### **The Practical Guide to Distributed Storage and Processing**
+Explore the Hadoop ecosystem running on your local machine with a simulated Docker cluster, theory-backed content, and interactive notebooks.
 
-Apache Hadoop is used to process and analyze large datasets. This project provides an easy way to deploy a Hadoop cluster using Docker containers and python language for study and experimentation.
+![Docker](https://img.shields.io/badge/Docker-27.x-2496ED?logo=docker&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Compose-v2-2496ED?logo=docker&logoColor=white)
+![Hadoop](https://img.shields.io/badge/Hadoop-3.5.0-FF8C00?logo=apachehadoop&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?logo=jupyter&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS_Code-Jupyter_Extension-007ACC?logo=visualstudiocode&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-## Project Structure
+---
 
-- **Configuration Files:** Adjust settings including formatting for the NameNode and startup configuration for the NameNode and DataNode.
-- **Environment Variables:** Set Hadoop’s runtime parameters.
-- **Docker Compose:** Uses Docker Compose to start and manage the cluster service containers.
+## 🎯 What is this repository?
 
-## Key Features
+A **hands-on lab** to explore the foundational technology of the Big Data era. Learn how Hadoop solves the Volume problem by fragmenting data and bringing computation closer to storage.
 
-- **Scalability:** Distribute workloads across multiple nodes for vast data processing.
-- **Fault Tolerance:** Utilize Hadoop’s built-in redundancy and error recovery mechanisms.
-- **Flexibility:** Integrate custom processing logic and third-party tools.
-- **Automation:** Use provided scripts and configuration to deploy and run Hadoop jobs effortlessly.
+- 📖 **Rich Documentation** — Theory based on academic fundamentals (MapReduce, HDFS, YARN).
+- ⚙️ **Integrated Test Environment** — Spin up a cluster with NameNode, DataNodes, and ResourceManager with 1 command.
+- 💻 **Interactive Guides (Labs)** — Actually interact with HDFS using Python and Pandas in Notebooks.
 
-## Prerequisites
+> **Target audience:** Students, data engineers, and scientists who want to master distributed persistence and understand the inner workings of Big Data systems.
 
-Before running the project, make sure you have:
+---
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) (includes Docker Compose)
-- Sufficient system resources (at least 4GB of RAM recommended)
+## ⚡ Quick Start (5 minutes)
 
-## Setup Instructions
-
-1. **Clone the Repository:**
-   Clone the repository to your local machine:
-
-   ```bash
-   git clone https://github.com/hiltonmbr/hadoop-docker.git
-   ```
-
-2. **Review Configurations:**
-   Check and update configuration files and environment variables as needed for your setup.
-
-3. **Start the Cluster:**
-   Launch your Hadoop cluster using Docker Compose:
-
-   ```bash
-   docker compose up -d
-   ```
-
-4. **Verify Services:**
-   Once started, check the status of all containers:
-   ```bash
-   docker compose ps
-   ```
-
-## Stopping the Cluster
-
-To stop the Hadoop cluster, run:
+If you already have Docker and `make` installed, you can start the lab in three simple steps:
 
 ```bash
-docker compose down
+# 1. Clone the repository
+git clone https://github.com/hiltonmbr/hadoop-docker.git
+cd hadoop-docker
+
+# 2. Start the Hadoop Cluster (runs in background)
+make up
+
+# 3. Set up the Python virtual environment and install dependencies
+make setup-env
 ```
 
-## Accessing the Services
+Now choose your path:
 
-- **NameNode Web UI:** Open [http://localhost:9870](http://localhost:9870)
-- **Code-Server (Python Notebooks for Hadoop jobs):** Open [http://localhost:8443](http://localhost:8443)
+**🅰️ VS Code + Jupyter Extension (recommended)**
+```bash
+code .                          # Open the project in VS Code
+# Install the "Jupyter" extension (ms-toolsai.jupyter) when VS Code prompts you
+# Open a .ipynb file in notebooks/ and select the .venv kernel
+```
 
-## Troubleshooting
+**🅱️ Jupyter Lab via terminal**
+```bash
+make jupyter-lab                # Opens Jupyter Lab in the browser
+```
 
-- **Cluster Not Starting:**
+Access the HDFS dashboard:
+👉 **[View NameNode Dashboard](http://localhost:9870)**
 
-  - Ensure Docker Desktop is running.
-  - Inspect container logs for errors:
-    ```bash
-    docker compose logs
-    ```
+---
 
-- **Service Access Issues:**
-  - Verify that no firewall or network settings are blocking the required ports.
-  - Confirm that all containers are running using:
-    ```bash
-    docker compose ps
-    ```
+## ⚙️ Prerequisites
 
-## Usage Example with Code-Server
+To run the labs, ensure your machine meets the following requirements:
 
-After setting up the environment:
+| Requirement | Details |
+|---|---|
+| **Docker Engine** | Essential for instantiating the cluster in an isolated manner |
+| **Docker Compose** | Already bundled in Docker Desktop |
+| **Make (optional)** | Used for terminal shortcuts |
+| **Resources** | At least **4GB RAM** or more recommended |
 
-1. Open the Notebook `handle-hdfs.ipynb` in the code-server.
+---
 
-2. Select Kernel and install suggested extensions `Python` and `Jupyter`.
+## 🗺️ Learning Map
 
-3. Select Python Environments and choose Create a Python Virtual Environment (`.venv`).
+To get the most out of the lab, we suggest the following theoretical and practical journey.
 
-- Select the option "Python 3.12" and press Enter.
-- Wait for the virtual environment to be created.
+### 📖 Theory: Big Data Fundamentals
+Read the theoretical documentation in the `docs/` folder before moving on to the hands-on practice.
 
-4. Make sure you have as selected kernel a Python Virtual Environment (`.venv`).
+| # | Theoretical Module | What you will learn | Link |
+|:---:|:---|:---|:---:|
+| 1 | **The problem and the history** | The limits of relational processing and the origin of Hadoop (GFS/MapReduce). | [📖 Read](docs/01-problem-and-history.md) |
+| 2 | **HDFS Architecture** | NameNode, DataNode, block size, replication, and Rack Awareness. | [📖 Read](docs/02-hdfs-architecture.md) |
+| 3 | **The Execution Paradigm** | Data Locality, MapReduce phases, and the role of YARN. | [📖 Read](docs/03-execution-paradigm.md) |
+| 4 | **Hadoop Ecosystem** | Complementary tools: Spark, Hive, HBase, Kafka. | [📖 Read](docs/04-hadoop-ecosystem.md) |
+| 5 | **Data Lakes and Cloud** | Medallion Architecture and transition to modern cloud. | [📖 Read](docs/05-data-lakes-and-cloud.md) |
+| 6 | **Servers and Automation** | Bare-Metal deployment and IaC orchestration with Ansible. | [📖 Read](docs/06-server-deployment-ansible.md) |
+| 7 | **HDFS Cheatsheet** | Reference guide with the main terminal commands. | [📖 Read](docs/07-essential-hdfs-commands.md) |
 
-## Contributing
+### 🧪 Hands-on Labs: Getting Your Hands Dirty
+Our labs are inside the `notebooks/` folder. Open them in VS Code (with the Jupyter extension) or via `make jupyter-lab`.
 
-Contributions are welcome! Please open an issue or submit a pull request with any improvements, bug fixes, or suggestions.
+| # | Topic | Description | Interactive Lab |
+|:---:|:---|:---|:---:|
+| 1 | 📂 **Manipulating HDFS via Python** | Distributed file reading and writing using the `hdfs` library. | [🧪 Go to Lab](notebooks/01_handle_hdfs.ipynb) |
+| 2 | 🐼 **Pandas with Distributed Files** | Integration and data analysis directly from the Data Lake using Pandas. | [🧪 Go to Lab](notebooks/02_handle_hdfs_pandas.ipynb) |
 
-## License
+---
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## 🏗️ Lab Architecture
 
-## Acknowledgments
+The cluster simulates a real Hadoop environment using Docker Compose with an isolated network and mapped volumes.
 
-- Thanks to the Apache Hadoop community for providing a robust data processing framework.
-- Special thanks to contributors and maintainers for their support and development efforts.
+```
+📁 projeto/
+├── config/hadoop/     → /opt/hadoop/etc/hadoop  (config XMLs generated by .env)
+├── scripts/           → /scripts                (start-hdfs.sh, init-datanode.sh)
+├── data/              → Bronze/Silver/Gold layer (local access and via notebooks)
+├── notebooks/         → Interactive Jupyter labs
+├── docs/              → Theoretical fundamentals
+└── temp/              → Temporary downloads & datasets (git-ignored *.csv)
+```
+
+```mermaid
+graph TD
+    subgraph "Docker Compose Network (Isolated)"
+    
+        namenode["🧠 NameNode<br>Manages Metadata<br>Port: 9870 / 8020"]
+        resourcemanager["🚦 ResourceManager (YARN)<br>Manages Resources<br>Port: 8088"]
+        proxy["🌉 Proxy (HttpFS Gateway)<br>Proxy for WebHDFS<br>Port: 14000"]
+        
+        datanode1["💾 DataNode 1<br>Stores Replicated Blocks"]
+        datanode2["💾 DataNode 2<br>Stores Replicated Blocks"]
+        datanode3["💾 DataNode 3<br>Stores Replicated Blocks"]
+        nodemanager["🏭 NodeManager (YARN)<br>Executes Local Tasks"]
+        
+    end
+
+    subgraph "Mounted Volumes"
+        config["📋 config/hadoop/"]
+        scripts["📜 scripts/"]
+    end
+
+    %% Internal connections
+    datanode1 -. Heartbeats .-> namenode
+    datanode2 -. Heartbeats .-> namenode
+    datanode3 -. Heartbeats .-> namenode
+    nodemanager -. Status .-> resourcemanager
+    proxy ==> namenode
+    proxy ==> datanode1
+    proxy ==> datanode2
+    proxy ==> datanode3
+    namenode --> config
+    datanode1 --> config
+    datanode2 --> config
+    datanode3 --> config
+    namenode --> scripts
+    datanode1 --> scripts
+    datanode2 --> scripts
+    datanode3 --> scripts
+
+    %% Local Environment (access via localhost:PORT)
+    local["💻 Local Machine<br>VS Code / Jupyter Lab"]
+    local ==o |localhost:9870| namenode
+    local ==o |localhost:8088| resourcemanager
+    local ==o |localhost:14000| proxy
+    local -.-> data["📁 data/"]
+
+    classDef core fill:#f5f5f5,stroke:#FF8C00,stroke-width:2px;
+    class namenode,datanode1,datanode2,datanode3,resourcemanager,nodemanager,proxy core;
+    classDef vol fill:#e8f5e9,stroke:#4caf50,stroke-width:1px;
+    class config,scripts,data vol;
+```
+
+---
+
+## 📝 Lab Administration Cheatsheet
+
+In addition to the notebooks, you can test commands via terminal:
+
+```bash
+# ── Lab Orchestration ──
+make up              # 🔥 Starts the Hadoop cluster (NameNode, DataNodes, YARN)
+make down            # 😴 Puts the elephants to sleep
+make clean           # 💥☢️ NUKES everything! Containers + HDFS data to the moon
+make status          # 🔍 What's up with the containers?
+
+# ── Accessing Terminals ──
+make shell-namenode      # 🐚 NameNode CLI
+make shell-datanode1     # 🐚 DataNode 1 CLI
+make shell-datanode3     # 🐚 DataNode 3 CLI
+
+# ── Running Notebooks Locally ──
+make setup-env           # 🐍 Sets up the local Python environment with uv
+make jupyter-lab         # 📓🚀 Starts Jupyter Lab in the browser
+```
+
+---
+
+## 📄 License and References
+
+This project is made available under the [MIT License](LICENSE).
+
+> **Open educational material.** Created for the hands-on classes of the **Data Science for Business** course (UFPB). Developed by Hilton Martins.
