@@ -1,68 +1,71 @@
 services:
-  code-server:
-    image: lscr.io/linuxserver/code-server:latest
-    container_name: code-server
-    user: root
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - SUDO_PASSWORD=test
-      - DOCKER_MODS=linuxserver/mods:code-server-python3
-    volumes:
-      - ./shared-data:/config/workspace
-    ports:
-      - 8443:8443
-    restart: unless-stopped
-    networks:
-      - dev
   namenode:
-    image: apache/hadoop:3.3.6
+    image: apache/hadoop:3.5.0
     container_name: namenode
     hostname: namenode
     user: root
     env_file:
       - ./.env
     volumes:
-      - ./shared-data/hadoop:/opt/hadoop/etc/hadoop
+      - ./config/hadoop:/opt/hadoop/etc/hadoop
+      - ./scripts:/scripts
     ports:
       - "9870:9870"
       - "8020:8020"
     restart: unless-stopped
     networks:
       - dev
-    command: ["/bin/bash", "/opt/hadoop/etc/hadoop/start-hdfs.sh"]
+    command: ["/bin/bash", "/scripts/start-hdfs.sh"]
   datanode1:
-    image: apache/hadoop:3.3.6
+    image: apache/hadoop:3.5.0
     container_name: datanode1
     hostname: datanode1
     user: root
     env_file:
       - ./.env
     volumes:
-      - ./shared-data/hadoop:/opt/hadoop/etc/hadoop
+      - ./config/hadoop:/opt/hadoop/etc/hadoop
+      - ./scripts:/scripts
     depends_on:
       - namenode
     restart: unless-stopped
     networks:
       - dev
-    command: ["/bin/bash", "/opt/hadoop/etc/hadoop/init-datanode.sh"]
+    command: ["/bin/bash", "/scripts/init-datanode.sh"]
   datanode2:
-    image: apache/hadoop:3.3.6
+    image: apache/hadoop:3.5.0
     container_name: datanode2
     hostname: datanode2
     user: root
     env_file:
       - ./.env
     volumes:
-      - ./shared-data/hadoop:/opt/hadoop/etc/hadoop
+      - ./config/hadoop:/opt/hadoop/etc/hadoop
+      - ./scripts:/scripts
     depends_on:
       - namenode
     restart: unless-stopped
     networks:
       - dev
-    command: ["/bin/bash", "/opt/hadoop/etc/hadoop/init-datanode.sh"]
+    command: ["/bin/bash", "/scripts/init-datanode.sh"]
+  datanode3:
+    image: apache/hadoop:3.5.0
+    container_name: datanode3
+    hostname: datanode3
+    user: root
+    env_file:
+      - ./.env
+    volumes:
+      - ./config/hadoop:/opt/hadoop/etc/hadoop
+      - ./scripts:/scripts
+    depends_on:
+      - namenode
+    restart: unless-stopped
+    networks:
+      - dev
+    command: ["/bin/bash", "/scripts/init-datanode.sh"]
   resourcemanager:
-    image: apache/hadoop:3.3.6
+    image: apache/hadoop:3.5.0
     hostname: resourcemanager
     container_name: resourcemanager
     command: ["yarn", "resourcemanager"]
@@ -73,7 +76,7 @@ services:
     networks:
       - dev
   nodemanager:
-    image: apache/hadoop:3.3.6
+    image: apache/hadoop:3.5.0
     container_name: nodemanager
     hostname: nodemanager
     command: ["yarn", "nodemanager"]
@@ -82,6 +85,23 @@ services:
     restart: unless-stopped
     networks:
       - dev
+  proxy:
+    image: apache/hadoop:3.5.0
+    container_name: proxy
+    hostname: proxy
+    user: root
+    env_file:
+      - ./.env
+    volumes:
+      - ./config/hadoop:/opt/hadoop/etc/hadoop
+    depends_on:
+      - namenode
+    ports:
+      - "14000:14000"
+    restart: unless-stopped
+    networks:
+      - dev
+    command: ["hdfs", "httpfs"]
 
 networks:
   dev:
