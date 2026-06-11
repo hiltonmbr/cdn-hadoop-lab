@@ -27,7 +27,7 @@ A **hands-on lab** to explore the foundational technology of the Big Data era. L
 
 ## ⚡ Quick Start (5 minutes)
 
-If you already have Docker and `make` installed, you can start the lab in three simple steps:
+If you already have Docker, `make`, and `uv` installed, you can start the lab in three simple steps:
 
 ```bash
 # 1. Clone the repository
@@ -37,23 +37,14 @@ cd cdn-hadoop-lab
 # 2. Start the Hadoop Cluster (runs in background)
 make up
 
-# 3. Set up the Python virtual environment and install dependencies
+# 3. Set up the Python virtual environment and start the Labs
 make setup-env
+make jupyter-lab
 ```
 
-Now choose your path:
+Your browser will open automatically with the interactive exercise notebooks in the `notebooks/` folder. Choose `.venv` as the Python kernel when opening the first notebook.
 
-**🅰️ VS Code + Jupyter Extension (recommended)**
-```bash
-code .                          # Open the project in VS Code
-# Install the "Jupyter" extension (ms-toolsai.jupyter) when VS Code prompts you
-# Open a .ipynb file in notebooks/ and select the .venv kernel
-```
-
-**🅱️ Jupyter Lab via terminal**
-```bash
-make jupyter-lab                # Opens Jupyter Lab in the browser
-```
+> **💡 VS Code users:** Install the "Jupyter" extension (`ms-toolsai.jupyter`), open a `.ipynb` file, and select `.venv` as the kernel.
 
 Access the HDFS dashboard:
 👉 **[View NameNode Dashboard](http://localhost:9870)**
@@ -69,8 +60,17 @@ To run the labs, ensure your machine meets the following requirements:
 | **Docker Engine** | Essential for instantiating the cluster in an isolated manner |
 | **Docker Compose** | Already bundled in Docker Desktop |
 | **Make (optional)** | Used for terminal shortcuts |
+| **uv** | Fast Python package installer and resolver. Essential for `make setup-env` ([Installation](https://docs.astral.sh/uv/getting-started/installation/)) |
 | **Resources** | At least **4GB RAM** or more recommended |
 | **Disk** | A few GB free for labs 4–6 (datasets are downloaded to `temp/` and stored in HDFS with ×3 replication) |
+
+Verify the installation of the vital tools:
+
+```bash
+docker version
+docker compose version
+uv --version
+```
 
 ---
 
