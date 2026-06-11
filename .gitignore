@@ -1,9 +1,37 @@
-*.DS_Store
-*.gz
-*.venv
-hadoop_*
-code-server
-temp/*
-!temp/.gitkeep
+# JetBrains IDEs (DataGrip, WebStorm, PyCharm, etc.)
+.idea/
+*.iws
+out/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotbackup
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs e arquivos temporários
+*.log
+tmp/
+temp/
+
+# Dados locais (caso o usuário decida usar bind mounts no futuro em vez de named volumes)
+data/
+
+# Python / Jupyter
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
 config/hadoop/*.xml.raw
-!config/hadoop/*.xml
