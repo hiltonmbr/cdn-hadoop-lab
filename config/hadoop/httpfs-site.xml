@@ -1,0 +1,4 @@
+<configuration>
+<property><name>httpfs.proxyuser.root.hosts</name><value>*</value></property>
+<property><name>httpfs.proxyuser.root.groups</name><value>*</value></property>
+</configuration>
