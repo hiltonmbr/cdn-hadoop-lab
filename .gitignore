@@ -3,3 +3,7 @@
 *.venv
 hadoop_*
 code-server
+temp/*
+!temp/.gitkeep
+config/hadoop/*.xml.raw
+!config/hadoop/*.xml
