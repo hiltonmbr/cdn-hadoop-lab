@@ -41,3 +41,7 @@ config/hadoop/mapred-site.xml
 config/hadoop/yarn-site.xml
 config/hadoop/capacity-scheduler.xml
 config/hadoop/*.xml.raw
+# Runtime decommission exclude list (written by the fault-tolerance lab)
+config/hadoop/exclude-hosts
+.claude/
+CLAUDE.md

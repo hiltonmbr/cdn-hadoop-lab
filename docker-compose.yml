@@ -135,6 +135,7 @@ services:
     image: apache/hadoop:3.5.0
     container_name: proxy
     hostname: proxy
+    user: root
     env_file:
       - ./.env
     volumes:
