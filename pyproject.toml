@@ -3,7 +3,7 @@ name = "cdn-hadoop-lab"
 version = "0.1.0"
 description = "Hadoop Cluster on Docker Environment for Study"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 dependencies = [
     "hdfs>=2.7.3",
     "pandas>=2.0.0",

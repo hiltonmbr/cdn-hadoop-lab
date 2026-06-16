@@ -16,6 +16,12 @@ services:
     networks:
       - dev
     command: ["/bin/bash", "/scripts/start-hdfs.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -v grep | grep -q 'org.apache.hadoop.hdfs.server.namenode.NameNode'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
   datanode1:
     image: apache/hadoop:3.5.0
     container_name: datanode1
@@ -27,11 +33,18 @@ services:
       - ./config/hadoop:/opt/hadoop/etc/hadoop
       - ./scripts:/scripts
     depends_on:
-      - namenode
+      namenode:
+        condition: service_started
     restart: unless-stopped
     networks:
       - dev
     command: ["/bin/bash", "/scripts/init-datanode.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -v grep | grep -q 'org.apache.hadoop.hdfs.server.datanode.DataNode'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
   datanode2:
     image: apache/hadoop:3.5.0
     container_name: datanode2
@@ -43,11 +56,18 @@ services:
       - ./config/hadoop:/opt/hadoop/etc/hadoop
       - ./scripts:/scripts
     depends_on:
-      - namenode
+      namenode:
+        condition: service_started
     restart: unless-stopped
     networks:
       - dev
     command: ["/bin/bash", "/scripts/init-datanode.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -v grep | grep -q 'org.apache.hadoop.hdfs.server.datanode.DataNode'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
   datanode3:
     image: apache/hadoop:3.5.0
     container_name: datanode3
@@ -59,22 +79,36 @@ services:
       - ./config/hadoop:/opt/hadoop/etc/hadoop
       - ./scripts:/scripts
     depends_on:
-      - namenode
+      namenode:
+        condition: service_started
     restart: unless-stopped
     networks:
       - dev
     command: ["/bin/bash", "/scripts/init-datanode.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -v grep | grep -q 'org.apache.hadoop.hdfs.server.datanode.DataNode'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
   resourcemanager:
     image: apache/hadoop:3.5.0
     hostname: resourcemanager
     container_name: resourcemanager
     command: ["yarn", "resourcemanager"]
     ports:
-      - 8088:8088
+      - "8088:8088"
     env_file:
       - ./.env
     networks:
       - dev
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -v grep | grep -q 'org.apache.hadoop.yarn.server.resourcemanager.ResourceManager'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
   nodemanager:
     image: apache/hadoop:3.5.0
     container_name: nodemanager
@@ -82,26 +116,44 @@ services:
     command: ["yarn", "nodemanager"]
     env_file:
       - ./.env
+    volumes:
+      - ./config/hadoop:/opt/hadoop/etc/hadoop
+      - ./scripts:/scripts
+    depends_on:
+      resourcemanager:
+        condition: service_started
     restart: unless-stopped
     networks:
       - dev
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -v grep | grep -q 'org.apache.hadoop.yarn.server.nodemanager.NodeManager'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
   proxy:
     image: apache/hadoop:3.5.0
     container_name: proxy
     hostname: proxy
-    user: root
     env_file:
       - ./.env
     volumes:
       - ./config/hadoop:/opt/hadoop/etc/hadoop
     depends_on:
-      - namenode
+      namenode:
+        condition: service_started
     ports:
       - "14000:14000"
     restart: unless-stopped
     networks:
       - dev
     command: ["hdfs", "httpfs"]
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -v grep | grep -q httpfs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 
 networks:
   dev:
