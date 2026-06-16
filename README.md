@@ -72,6 +72,24 @@ docker compose version
 uv --version
 ```
 
+### 🔨 Installing `make`
+
+`make` powers every shortcut in this guide (`make up`, `make setup-env`, `make jupyter-lab`, …). It's listed as *optional* because you can always run the underlying `docker compose` / `uv` commands by hand (check the [Makefile](Makefile) for what each target actually runs) — but installing it gives you the smoothest experience.
+
+| OS | How to install |
+|---|---|
+| 🍎 **macOS** | Bundled with the Xcode Command Line Tools — just run `xcode-select --install`. Or via [Homebrew](https://brew.sh): `brew install make` |
+| 🐧 **Linux** | Usually preinstalled. If missing: <br>• Debian/Ubuntu: `sudo apt update && sudo apt install make` (or `build-essential` for the full toolchain) <br>• Fedora/RHEL: `sudo dnf install make` <br>• Arch: `sudo pacman -S make` |
+| 🪟 **Windows** | Not included by default. Since Docker Desktop already requires the **WSL2** backend, the easiest path is to install `make` inside your WSL2 distro the same way as Linux above (`sudo apt install make`). Alternatively, from PowerShell: <br>• [winget](https://learn.microsoft.com/windows/package-manager/winget/): `winget install GnuWin32.Make` <br>• [Chocolatey](https://chocolatey.org): `choco install make` <br>• [Scoop](https://scoop.sh): `scoop install make` |
+
+Verify it worked:
+
+```bash
+make --version
+```
+
+> **No `make`?** No problem — every `make <target>` in this README has a 1:1 equivalent you can run directly, e.g. `make up` → `docker compose up -d`, `make setup-env` → `uv sync` (see the [Makefile](Makefile) for the rest).
+
 ---
 
 ## 🗺️ Learning Map
